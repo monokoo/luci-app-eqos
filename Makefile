@@ -61,6 +61,8 @@ define Package/luci-app-eqos/install
 	$(INSTALL_BIN) ./files/uci-defaults-eqos $(1)/etc/uci-defaults/luci-eqos
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
 	po2lmo ./files/po/zh-cn/eqos.po $(1)$(LUCI_DIR)/i18n/eqos.zh-cn.lmo
+	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+	$(INSTALL_DATA) ./files/luci-app-eqos.json $(1)/usr/share/rpcd/acl.d/
 endef
 
 define Package/luci-app-eqos/postinst
