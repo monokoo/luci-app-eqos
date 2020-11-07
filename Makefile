@@ -37,16 +37,6 @@ define Package/luci-app-eqos/description
 	Luci interface for the eqos.
 endef
 
-define Package/luci-i18n-eqos-zh-cn
-	SECTION:=luci
-	CATEGORY:=LuCI
-	TITLE:=luci-app-eqos - zh-cn translation
-	HIDDEN:=1
-	DEPENDS:=luci-app-eqos
-	DEFAULT:=LUCI_LANG_zh-cn
-    PKGARCH:=all
-endef
-
 define Build/Prepare
 endef
 
@@ -69,6 +59,8 @@ define Package/luci-app-eqos/install
 	$(INSTALL_DATA) ./files/eqos-controller.lua $(1)$(LUCI_DIR)/controller/eqos.lua
 	$(INSTALL_DATA) ./files/eqos-cbi.lua $(1)$(LUCI_DIR)/model/cbi/eqos.lua
 	$(INSTALL_BIN) ./files/uci-defaults-eqos $(1)/etc/uci-defaults/luci-eqos
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./files/po/zh-cn/eqos.po $(1)$(LUCI_DIR)/i18n/eqos.zh-cn.lmo
 endef
 
 define Package/luci-app-eqos/postinst
@@ -90,11 +82,5 @@ uci -q get ucitrack.@eqos[0] > /dev/null && {
 }
 endef
 
-define Package/luci-i18n-eqos-zh-cn/install
-	$(INSTALL_DIR) $(1)$(LUCI_DIR)/i18n
-	po2lmo ./files/po/zh-cn/eqos.po $(1)$(LUCI_DIR)/i18n/eqos.zh-cn.lmo
-endef
-
 $(eval $(call BuildPackage,eqos))
 $(eval $(call BuildPackage,luci-app-eqos))
-$(eval $(call BuildPackage,luci-i18n-eqos-zh-cn))
